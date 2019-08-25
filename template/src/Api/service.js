@@ -19,10 +19,14 @@ service.interceptors.request.use(config => {
     })
   }
   config.headers['Content-Type'] = 'application/json';
-  if(typeof(config.data)=="string"){
-    var data = JSON.parse(config.data)
-  }else{
-    var data = config.data;
+  if(config.url.indexOf("/HWJHP/client/image/upload")!=-1){
+    config.headers['Content-Type'] = 'multipart/form-data'
+  }else{ 
+    if(typeof(config.data)=="string"){
+      var data = JSON.parse(config.data)
+    }else{
+      var data = config.data;
+    }
   }
   deleteEmptyProperty(data)
   config.data = JSON.stringify(data);  
@@ -38,6 +42,12 @@ service.interceptors.response.use(
         MaskLoad = null;
       }
       if(response.data.success){
+        if(response.config.data && typeof(response.config.data) == 'string'){
+          var jsonData = JSON.parse(response.config.data);
+          if(jsonData.showSuccess){
+            Message({message:response.data.msg,type:'success'})
+          }
+        }
         return response.data.data?response.data.data:response.data
       }else{
         showerror(response.data);
