@@ -14,31 +14,40 @@
 </template>
 <script>
 export default {
-  props:['disabled'],
+  props:{
+    value:{
+
+    },
+    disabled:{
+      default:false
+    }
+  },
   data(){
     return{
-      file:null,
       imageUrl:'',
-      oriUrl:""
+    }
+  },
+  mounted(){
+    this.getImage()
+  },
+  watch:{
+    value(){
+      this.getImage()
     }
   },
   methods:{
+    //添加图片
     change(file){
-      this.oriUrl = '';
-      this.imageUrl = URL.createObjectURL(file.raw);
-      this.file = file.raw
+      this.$emit('input',file.raw)
     },
-    upload(){
-      return new Promise((resolve)=>{
-        if(!this.file){
-          return resolve(this.oriUrl?this.oriUrl:'') 
-        }
-        var data = new FormData();
-        data.append("images",this.file)
-        this.$http.upload(data).then(res=>{
-          resolve(res[0])
-        })
-      })  
+    getImage(){
+      if(typeof(this.value)=='object'){
+        //是文件
+        this.imageUrl = URL.createObjectURL(this.value);
+      }else if(typeof(this.value)=='string'){
+        //是链接
+        this.imageUrl = this.value;
+      }
     }
   }
 }

@@ -21,7 +21,20 @@
 </template>
 <script>
 export default {
-  props:['limit',"disabled","multiple"],
+  props:{
+    limit:{
+
+    },
+    disabled:{
+      default:false
+    },
+    multiple:{
+      default:false
+    },
+    value:{
+
+    }
+  },
   data(){
     return{
       files:[],
@@ -33,17 +46,18 @@ export default {
     exceed(){
       this.$message.error("最多上传"+this.limit+'张图片')
     },
-    //上传图片
+    //添加图片
     change(file){    
       this.files.push(file.raw)   
     },
     //移除图片
     remove(file){
-      if(file.code){
-        return this.oldImgs = this.oldImgs.filter(item=>item!=file.code);
-      }
-      var index = this.files.findIndex(item => item.uid == file.raw.uid);
-      this.files.splice(index,1);
+      if(file.key!='old'){
+        var index = this.files.findIndex(item => item.uid == file.raw.uid);
+        this.files.splice(index,1);
+      };
+      var olds =  this.fileList.map(item=>item.url)
+      this.$emit('input',olds.concat(this.files))      
     },
     upload(){
       return new Promise((resolve)=>{
@@ -59,6 +73,18 @@ export default {
           resolve(arr); 
         })
       })  
+    },
+    getImage(){
+      this.fileList = []
+      for(let item of this.value){
+        if(typeof(item) === 'string'){
+          //是链接说明已上传
+          this.fileList.push({
+            url:item,
+            key:'old'
+          })
+        }
+      }
     }
   }
   
