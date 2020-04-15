@@ -1,3 +1,4 @@
+...
 template
 ├─.babelrc-----------es6打包es5相关配置
 ├─.editorconfig
@@ -47,3 +48,4 @@ template
 |   ├─webpack.base.conf.js
 |   ├─webpack.dev.conf.js
 |   └webpack.prod.conf.js
+...
