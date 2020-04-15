@@ -1,6 +1,6 @@
 import axios from 'axios'
 axios.defaults.withCredentials=true;
-import { Loading,Message} from 'element-ui';
+import {Message} from 'element-ui';
 export const baseURL = window.config.baseURL;
 const service = axios.create({
   baseURL:baseURL,
@@ -10,7 +10,6 @@ const service = axios.create({
 });
 const errorInfo = {
 }
-var MaskLoad = null;
 service.interceptors.request.use(config => {
   return config;
 }, error => {  //请求错误处理
