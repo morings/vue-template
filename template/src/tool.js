@@ -1,3 +1,4 @@
+//工具类
 //date对象方法
 Date.prototype.Format = function (fmt) { //author: meizz 
   var o = {
