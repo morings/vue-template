@@ -9,6 +9,7 @@
     list-type="picture-card"
     :show-file-list="true"
     :file-list="fileList"
+    :on-preview='preview'
     :on-change="change"
     :on-remove="remove"
     :on-exceed="exceed"
@@ -45,6 +46,11 @@ export default {
   methods:{
     exceed(){
       this.$message.error("最多上传"+this.limit+'张图片')
+    },
+    //预览图片
+    preview(file){
+      let index = this.fileList.indexOf(file);
+      console.log(file,index)
     },
     //添加图片
     change(file){    
