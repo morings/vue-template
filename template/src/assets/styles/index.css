@@ -3,7 +3,7 @@ body,#app{
     height:100%;
     overflow: auto;
 }
-#transMask{
+#Mask{
   background: transparent;
   position: fixed;
   width:100%;
