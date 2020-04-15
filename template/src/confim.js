@@ -1,6 +1,7 @@
-//自定义confirm
+//响应弹窗
 import { MessageBox } from 'element-ui';
-const confim = function(message,title='提示'){
+//询问弹窗
+export const $cfm = function(message,title='提示'){
   return MessageBox.confirm(message,title,{
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -9,4 +10,14 @@ const confim = function(message,title='提示'){
     closeOnPressEscape:false
   })
 }
-export default confim;
+//输入弹窗
+export const $prt = function(message,title='提示',inputValidator){
+  return MessageBox.prompt(message,title,{
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+    closeOnClickModal:false,
+    closeOnPressEscape:false,
+    inputValidator:inputValidator
+  })
+}
