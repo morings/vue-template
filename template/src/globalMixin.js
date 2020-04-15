@@ -3,17 +3,11 @@ import Vue from 'vue'
 
 Vue.mixin({
   methods:{
+    //返回上一页
     goback(){
       this.$router.go(-1);
     },
-    isNaN(value){
-      if(isNaN(value) || value==Infinity || value==-Infinity){
-        return true
-      }else{
-        return false
-      }
-    },
-    //数字化
+    //数字格式化
     Number(value){
       if(isNaN(value)){
         return 0
@@ -21,6 +15,7 @@ Vue.mixin({
         return Number(value)
       }
     },
+    //下载文件
     exportFile(res,fileName){
       const content = res
       const blob = new Blob([content])
