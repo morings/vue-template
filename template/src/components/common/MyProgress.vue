@@ -1,3 +1,4 @@
+//进度条组件
 <template>
   <el-progress :stroke-width="strokeWidth" :status="status" :text-inside="true" :percentage="percentage"  ref="progress"></el-progress>
 </template>
