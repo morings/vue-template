@@ -11,24 +11,30 @@ export default {
     value:{
 
     },
+    //保留几位小数
     digit:{
       default:0
     },
+    //是否可用
     disabled:{
       default:false
     },
+    //最大值
     max:{
       default:false
     },
+    //是否能输复制
     negative:{
       default:false
     },
+    //是否只读
     readonly:{
       default:false
     },
     size:{
       default:"large"
     },
+    //占位符
     placeholder:{
       default:''
     },
@@ -57,7 +63,8 @@ export default {
       }else{
         value = value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
         value = value.replace(/^\./g,""); //验证第一个字符是数字
-        value = value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
+        //只保留第一个, 清除多余的
+        value = value.replace(/\.{2,}/g,"."); 
         value = value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
         if(self.digit<100){
           var str = "^(\\-)*(\\d+)\\.("
@@ -65,10 +72,11 @@ export default {
             str = str+"\\d";
           }
           str= str+").*$";
-          var reg = new RegExp(str)
+          var reg = new RegExp(str);
+          value = value.replace(reg,'$1$2.$3');
         }
         //value = value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
-        value = value.replace(reg,'$1$2.$3');
+        
       }
       if(self.max!==false && value>self.max){
         value = self.max;
@@ -88,6 +96,8 @@ export default {
         value = value.replace(/^\./g,""); //验证第一个字符不是'.'
         value = value.replace(/\.{2,}/g,"."); //只保留第一个'.', 清除多余的
         value = value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        value = value.replace(/\-{2,}/g,"-"); //只保留第一个, 清除多余的
+        value = value.replace(/^(\-)/,"$#$").replace(/\-/g,"").replace("$#$","-");
         if(self.digit<100){
           var str = "^(\\-)*(\\d+)\\.("
           for(var i=0;i<self.digit;i++){
@@ -98,10 +108,7 @@ export default {
         }
         //value = value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
         value = value.replace(reg,'$1$2.$3');
-      }
-      value = value.replace(/\-{2,}/g,"-"); //只保留第一个, 清除多余的
-      value = value.replace(/^(\-)/,"$#$").replace(/\-/g,"").replace("$#$","-");
-
+      }  
       self.$emit('input', value);          
     }
   }
