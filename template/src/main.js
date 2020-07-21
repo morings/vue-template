@@ -20,7 +20,7 @@ import $http from "./Api/api"
 import {deepClone} from "./tool"
 import bus from "./Bus"
 import {$cfm,$prt} from "./confim"
-import{getCookie,delCookie} from "./cookie"
+import{getCookie,delCookie,setCookie} from "./cookie"
 import './directive'
 import './globalMixin'
 Vue.use(Navigation, {router})

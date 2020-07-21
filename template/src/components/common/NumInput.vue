@@ -1,5 +1,5 @@
 <template>
-  <el-input   ref="elInput" :value='value' :disabled="disabled"  @input="handInput" @blur="blur" :readonly='readonly' :size="size" :type="type" :placeholder="placeholder" >
+  <el-input   ref="elInput" :value='value' :disabled="disabled"  @input="handInput_" @blur="blur" :readonly='readonly' :size="size" :type="type" :placeholder="placeholder" >
     <template slot="append">
       <slot name="append"></slot>
     </template>
@@ -50,6 +50,45 @@ export default {
     toNonExponential(num) {
         var m = num.toExponential().match(/\d(?:\.(\d*))?e([+-]\d+)/);
         return num.toFixed(Math.max(0, (m[1] || '').length - m[2]));
+    },
+    handInput_(value){
+      if(this.negative){
+        //负数处理
+        if(this.digit==0){
+          let reg = /(^\-{0,1}\d+$)/;
+          if(!reg.test(value)){
+            return document.execCommand('Undo')
+          }
+        }else if(this.digit<100){
+          let reg = new RegExp('(^\\-{0,1}\\d+$)|(^\\-{0,1}\\d+\\.\\d{0,'+this.digit+'}$)');
+          if(!reg.test(value)){
+            return document.execCommand('Undo')
+          }
+        }else{
+          let reg = /(^\-{0,1}\d*$)|(^\-{0,1}\d+\.\d*$)/
+          if(!reg.test(value)){
+            return document.execCommand('Undo')
+          }
+        }
+      }else if(this.digit == 0){//正数处理
+        let reg = /^\d+$/;
+        if(!reg.test(value)){
+          return document.execCommand('Undo')
+        }
+      }else if(this.digit<100){
+        let reg = new RegExp('(^\\d+$)|(^\\d+\\.\\d{0,'+this.digit+'}$)');
+        if(!reg.test(value)){
+          return document.execCommand('Undo')
+        }
+      }else{
+        if(isNaN(value)){
+          return document.execCommand('Undo')
+        }
+      }
+      if(this.max!==false && value > this.max){
+        value = max;
+      }
+      this.$emit('input', value);          
     },
     //只包括正数
     handInput(e){
